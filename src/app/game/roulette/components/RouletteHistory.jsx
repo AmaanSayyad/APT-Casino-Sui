@@ -72,10 +72,15 @@ const RouletteHistory = () => {
     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   };
   
-  const formatDate = (timeString) => {
-    const date = new Date(timeString);
-    return date.toLocaleDateString([], { month: 'short', day: 'numeric' });
-  };
+  // const formatDate = (timeString) => {
+  //   const date = new Date(timeString);
+  //   return date.toLocaleDateString([], { month: 'short', day: 'numeric' });
+  // };
+  
+  const formatDate = (dateString) => {
+  const options = { year: 'numeric', month: 'short', day: 'numeric' };
+  return new Date(dateString).toLocaleDateString('en-US', options);
+};
   
   // Determine color based on roulette number
   const getNumberColor = (num) => {
