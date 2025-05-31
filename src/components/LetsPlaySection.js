@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import LaunchGameButton from "./LaunchGameButton";
 import ConnectWalletButton from "./ConnectWalletButton";
 import { FaUsers, FaTrophy, FaCoins } from "react-icons/fa";
+import { ConnectButton } from "@mysten/dapp-kit";
 
 export default function LetsPlaySection() {
   // Stats with animation
@@ -63,7 +64,8 @@ export default function LetsPlaySection() {
           
           {/* Action buttons with improved layout */}
           <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 mt-4">
-            <ConnectWalletButton />
+            {/* <ConnectWalletButton /> */}
+            <ConnectButton/>
             <LaunchGameButton />
           </div>
           

@@ -2,6 +2,7 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import LaunchGameButton from "./LaunchGameButton";
 import ConnectWalletButton from "./ConnectWalletButton";
+import { ConnectButton } from "@mysten/dapp-kit";
 
 export default function HeroSection() {
   const [isDev, setIsDev] = useState(false);
@@ -46,7 +47,8 @@ export default function HeroSection() {
         </h2>
         
         <div className="flex flex-wrap justify-center gap-4 mt-6">
-          <ConnectWalletButton />
+          {/* <ConnectWalletButton /> */}
+          <ConnectButton/>
           <LaunchGameButton />
           
           {/* Additional Quick Links */}

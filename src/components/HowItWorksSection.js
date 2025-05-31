@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import GradientBorderButton from './GradientBorderButton';
 import ConnectWalletButton from './ConnectWalletButton';
+import { ConnectButton } from '@mysten/dapp-kit';
 
 const HowItWorksSection = () => {
   const [activeStep, setActiveStep] = useState(1);
@@ -109,7 +110,8 @@ const HowItWorksSection = () => {
               
               <div className="mt-6 flex justify-center lg:justify-start">
                 {activeStep === 1 ? (
-                  <ConnectWalletButton />
+                  // <ConnectWalletButton />
+                  <ConnectButton/>
                 ) : (
                   <GradientBorderButton className="transform hover:scale-105 transition-transform">
                     {activeStep === 2 ? 'Get APTC Tokens' : 

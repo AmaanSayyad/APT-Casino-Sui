@@ -1,6 +1,7 @@
 "use client";
+import { ConnectButton } from '@mysten/dapp-kit';
 import React, { useState, useEffect } from 'react';
-import { ConnectButton } from '@rainbow-me/rainbowkit';
+
 import { useConnect } from 'wagmi';
 
 export default function ConnectWalletButton() {
@@ -73,6 +74,7 @@ export default function ConnectWalletButton() {
         }
 
         return (
+
           <div className="flex items-center gap-3">
             <div className="bg-gradient-to-r from-green-500 to-emerald-600 hover-gradient-shadow rounded-xl p-0.5 cursor-pointer">
               <div className="bg-[#070005] rounded-xl py-3 px-6 h-full flex items-center">

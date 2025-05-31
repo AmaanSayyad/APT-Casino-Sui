@@ -4,9 +4,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
-import ConnectWalletButton from "./ConnectWalletButton";
 import TokenBalance from './TokenBalance';
 import { useNotification } from './NotificationSystem';
+import { ConnectButton } from "@mysten/dapp-kit";
 
 // Mock search results for demo purposes
 const MOCK_SEARCH_RESULTS = {
@@ -483,7 +483,7 @@ export default function Navbar() {
           {isClient && !isDev && <TokenBalance />}
           
           {/* Wallet Button */}
-          <ConnectWalletButton />
+          <ConnectButton/>
         </div>
       </div>
       

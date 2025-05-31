@@ -9,6 +9,9 @@ import { getDefaultConfig } from '@rainbow-me/rainbowkit';
 import { WalletStatusProvider } from '@/hooks/useWalletStatus';
 import { NotificationProvider } from '@/components/NotificationSystem';
 import { ThemeProvider } from 'next-themes';
+import { SuiClientProvider, WalletProvider,lightTheme,darkTheme } from '@mysten/dapp-kit';
+import { networkConfig } from './networkconfig';
+
 
 // Development mode flag - set to false to enable real wallet connections
 const isDevelopmentMode = false;
@@ -75,83 +78,96 @@ const config = getDefaultConfig({
 const queryClient = new QueryClient();
 
 export default function Providers({ children }) {
-  const [mounted, setMounted] = React.useState(false);
-  const [showDevWarning, setShowDevWarning] = React.useState(isDevelopmentMode);
-  const [connectionError, setConnectionError] = React.useState(false);
+  // const [mounted, setMounted] = React.useState(false);
+  // const [showDevWarning, setShowDevWarning] = React.useState(isDevelopmentMode);
+  // const [connectionError, setConnectionError] = React.useState(false);
 
-  React.useEffect(() => {
-    setMounted(true);
+  // React.useEffect(() => {
+  //   setMounted(true);
     
-    // Check for previously dismissed warning
-    if (isDevelopmentMode && localStorage.getItem('dev-warning-dismissed') === 'true') {
-      setShowDevWarning(false);
-    }
+  //   // Check for previously dismissed warning
+  //   if (isDevelopmentMode && localStorage.getItem('dev-warning-dismissed') === 'true') {
+  //     setShowDevWarning(false);
+  //   }
     
-    // Reset connection error when component mounts
-    setConnectionError(false);
+  //   // Reset connection error when component mounts
+  //   setConnectionError(false);
     
-    // Setup global error handler for wallet connections
-    const handleConnectionError = (error) => {
-      console.warn("Wallet connection issue detected:", error);
-      setConnectionError(true);
-    };
+  //   // Setup global error handler for wallet connections
+  //   const handleConnectionError = (error) => {
+  //     console.warn("Wallet connection issue detected:", error);
+  //     setConnectionError(true);
+  //   };
     
-    // Global error handler for uncaught errors and promise rejections
-    const handleGlobalError = (event) => {
-      const errorMsg = event.reason?.message || event.message || '';
+  //   // Global error handler for uncaught errors and promise rejections
+  //   const handleGlobalError = (event) => {
+  //     const errorMsg = event.reason?.message || event.message || '';
       
-      if (errorMsg.includes('wallet') || 
-          errorMsg.includes('provider') ||
-          errorMsg.includes('chain') ||
-          errorMsg.includes('connection')) {
+  //     if (errorMsg.includes('wallet') || 
+  //         errorMsg.includes('provider') ||
+  //         errorMsg.includes('chain') ||
+  //         errorMsg.includes('connection')) {
             
-        handleConnectionError(event.reason || event);
+  //       handleConnectionError(event.reason || event);
         
-        // Prevent the error from bubbling up
-        if (event.preventDefault) {
-          event.preventDefault();
-        }
-        if (event.stopPropagation) {
-          event.stopPropagation();
-        }
+  //       // Prevent the error from bubbling up
+  //       if (event.preventDefault) {
+  //         event.preventDefault();
+  //       }
+  //       if (event.stopPropagation) {
+  //         event.stopPropagation();
+  //       }
         
-        return true;
-      }
+  //       return true;
+  //     }
       
-      return false;
-    };
+  //     return false;
+  //   };
     
-    window.addEventListener('unhandledrejection', handleGlobalError);
-    window.addEventListener('error', handleGlobalError);
+  //   window.addEventListener('unhandledrejection', handleGlobalError);
+  //   window.addEventListener('error', handleGlobalError);
     
-    return () => {
-      window.removeEventListener('unhandledrejection', handleGlobalError);
-      window.removeEventListener('error', handleGlobalError);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener('unhandledrejection', handleGlobalError);
+  //     window.removeEventListener('error', handleGlobalError);
+  //   };
+  // }, []);
 
-  // Show warning if no project ID
-  if (!projectId && !isDevelopmentMode) {
-    console.error("No WalletConnect project ID found. Using fallback ID.");
-  }
+  // // Show warning if no project ID
+  // if (!projectId && !isDevelopmentMode) {
+  //   console.error("No WalletConnect project ID found. Using fallback ID.");
+  // }
 
-  // Return early if not mounted to avoid hydration issues
-  if (!mounted) return null;
+  // // Return early if not mounted to avoid hydration issues
+  // if (!mounted) return null;
 
   // Normal production mode with wallet providers and our custom provider
-  return (
-    <WagmiProvider config={config}>
-      <QueryClientProvider client={queryClient}>
-        <RainbowKitProvider>
-          <NotificationProvider>
-            <WalletStatusProvider>
-              <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-                {children}
-              </ThemeProvider>
-            </WalletStatusProvider>
-          </NotificationProvider>
-        </RainbowKitProvider>
-      </QueryClientProvider>
-    </WagmiProvider>
+//   return (
+//     <WagmiProvider config={config}>
+//       <QueryClientProvider client={queryClient}>
+//         <RainbowKitProvider>
+//           <NotificationProvider>
+//             <WalletStatusProvider>
+//               <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+//                 {children}
+//               </ThemeProvider>
+//             </WalletStatusProvider>
+//           </NotificationProvider>
+//         </RainbowKitProvider>
+//       </QueryClientProvider>
+//     </WagmiProvider>
+//   );
+// }
+
+return (
+   <NotificationProvider>
+    <QueryClientProvider client={queryClient}>
+      <SuiClientProvider networks={networkConfig} defaultNetwork="testnet">
+        <WalletProvider autoConnect={true}>
+          {children}
+        </WalletProvider>
+      </SuiClientProvider>
+    </QueryClientProvider>
+     </NotificationProvider>
   );
 }
